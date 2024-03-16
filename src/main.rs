@@ -1,6 +1,7 @@
 use eyre::{Context, Result};
 
 mod db;
+mod endpoints;
 #[cfg(test)]
 mod tests;
 mod utils;
