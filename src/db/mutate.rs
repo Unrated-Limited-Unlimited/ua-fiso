@@ -1,10 +1,12 @@
+use bson::Document;
 use eyre::{Context, Result};
-use mongodb::{options::CreateCollectionOptions, Client};
+use mongodb::{options::CreateCollectionOptions, Client, Collection};
+use ua_rlib::models::img::Img;
 
-use crate::utils::consts::{DB_COLLECTION_WIMG, DB_W_IMG_NAME};
+use crate::utils::consts::{DB_COLLECTION_WIMG, DB_NAME};
 
 pub async fn setup(client: &Client) -> Result<()> {
-    let db = client.database(DB_W_IMG_NAME);
+    let db = client.database(DB_NAME);
 
     let collections = db
         .list_collection_names(None)
@@ -23,8 +25,17 @@ pub async fn setup(client: &Client) -> Result<()> {
     Ok(())
 }
 
-pub async fn add_img(client: &Client, img: &[u8]) -> Result<()> {
-    let db = client.database(DB_W_IMG_NAME);
+pub async fn add_img(client: &Client, img: Img) -> Result<()> {
+    let db = client.database(DB_NAME);
 
-    Ok(())
+    let collection = db.collection::<Document>(DB_COLLECTION_WIMG);
+
+    collection
+        .insert_one(
+            bson::to_document(&img).wrap_err("Failed serializing img")?,
+            None,
+        )
+        .await
+        .wrap_err("Failed inserting img")
+        .and(Ok(()))
 }

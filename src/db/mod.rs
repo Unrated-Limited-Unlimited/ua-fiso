@@ -1,3 +1,4 @@
+pub mod fetch;
 pub mod mutate;
 
 use eyre::{Context, Result};
