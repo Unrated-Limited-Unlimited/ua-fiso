@@ -1,3 +1,5 @@
+use std::net::Ipv4Addr;
+
 use anyhow::Result;
 use api::{
     admin_page::root,
@@ -6,7 +8,7 @@ use api::{
 };
 use db::mutate::setup;
 use mongodb::Client;
-use rocket::routes;
+use rocket::{routes, Config};
 use tokio::sync::{Mutex, OnceCell};
 
 mod api;
@@ -40,6 +42,11 @@ async fn main() -> Result<()> {
     let rocket = rocket::build()
         .mount("/", routes![root])
         .mount("/api", routes![get_version, get_img, post_img])
+        .configure(Config {
+            port: 8000,
+            address: Ipv4Addr::new(0, 0, 0, 0).into(),
+            ..Default::default()
+        })
         .launch();
 
     rocket.await?;
