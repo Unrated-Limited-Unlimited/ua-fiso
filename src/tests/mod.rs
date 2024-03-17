@@ -8,6 +8,7 @@ use toml;
 
 use crate::utils::consts::VERSION;
 
+/// Ensures the versions specified match
 #[tokio::test]
 pub async fn test_version() -> Result<()> {
     let file = File::open("Cargo.toml").await?;

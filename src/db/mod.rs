@@ -7,6 +7,9 @@ use mongodb::{options::ClientOptions, Client};
 
 use crate::utils::consts::DB_URL;
 
+/// Creats a connection to the database
+///
+/// Pings the database, ensuring a client is only made if the server is up and running
 pub async fn create_client() -> Result<Client> {
     let client = Client::with_options(ClientOptions::parse(DB_URL).await?)?;
 
