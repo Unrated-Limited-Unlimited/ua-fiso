@@ -1,6 +1,7 @@
 use anyhow::Result;
 use api::{
     admin_page::root,
+    get_version,
     img::{get_img, post_img},
 };
 use db::mutate::setup;
@@ -38,7 +39,7 @@ async fn main() -> Result<()> {
     // Server setup
     let rocket = rocket::build()
         .mount("/", routes![root])
-        .mount("/api", routes![get_img, post_img])
+        .mount("/api", routes![get_version, get_img, post_img])
         .launch();
 
     rocket.await?;
