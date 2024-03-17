@@ -27,7 +27,8 @@ pub static CLIENT: OnceCell<Mutex<Client>> = OnceCell::const_new();
 
 /// Entry point for the microservice
 ///
-/// Sets up the database, and then starts the server
+/// Sets up the database, and then starts the server, so it's stored behind a mutex,
+/// to ensure no race condition happens.
 #[rocket::main]
 async fn main() -> Result<()> {
     // Loading dotenv

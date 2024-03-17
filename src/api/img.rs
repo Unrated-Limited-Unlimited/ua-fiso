@@ -8,6 +8,10 @@ use crate::{
 };
 
 // TODO: Change to return img instead of img-type
+/// Gets image by id
+///
+/// Returns a Result, meaning this function can error (like `Either` in Haskell)
+/// The type in Result, is a json-object containing the Img-Struct.
 #[get("/img/<id>")]
 pub async fn get_img(id: &str) -> Result<Json<Vec<Img>>> {
     let mutex = CLIENT
@@ -20,6 +24,9 @@ pub async fn get_img(id: &str) -> Result<Json<Vec<Img>>> {
     Ok(Json(img))
 }
 
+/// Upload img
+///
+/// Returns a result, giving the caller a sign if the function was successfull or not.
 #[post("/img", data = "<img>")]
 pub async fn post_img(img: Json<Img>) -> Result<()> {
     let mutex = CLIENT

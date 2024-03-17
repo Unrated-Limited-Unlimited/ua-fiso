@@ -26,6 +26,9 @@ pub async fn create_client() -> Result<Client> {
     }
 }
 
+/*
+Incase we want more fancy options, will probably not happen.
+ */
 pub fn get_bson_deserializer_option() -> DeserializerOptions {
     DeserializerOptions::builder().build()
 }

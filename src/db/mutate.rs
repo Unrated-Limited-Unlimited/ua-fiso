@@ -5,6 +5,7 @@ use ua_rlib::models::img::Img;
 
 use crate::utils::consts::{DB_COLLECTION_WIMG, DB_NAME};
 
+/// Setups the databse, ensuring that the wanted collections (tabels) exist, if not, creates them.
 pub async fn setup(client: &Client) -> Result<()> {
     let db = client.database(DB_NAME);
 
@@ -18,6 +19,10 @@ pub async fn setup(client: &Client) -> Result<()> {
     Ok(())
 }
 
+/// Adds an image to the database.
+///
+/// Works by converting the struct into a json object (same as bson),
+/// and storing it in the MongoDB
 pub async fn add_img(client: &Client, img: Img) -> Result<()> {
     let db = client.database(DB_NAME);
 
