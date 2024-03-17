@@ -7,11 +7,12 @@ use crate::{
     CLIENT,
 };
 
+// TODO: Change to return img instead of img-type
 #[get("/img/<id>")]
 pub async fn get_img(id: &str) -> Result<Json<Vec<Img>>> {
     let mutex = CLIENT
         .get()
-        .ok_or(AnyhowError(anyhow::Error::msg("Failed getting id")))?;
+        .ok_or(AnyhowError(anyhow::Error::msg("Failed getting mutex lock")))?;
 
     let client = mutex.try_lock()?;
     let img = get_img_by_id(&client, id.to_string()).await?;
@@ -23,7 +24,7 @@ pub async fn get_img(id: &str) -> Result<Json<Vec<Img>>> {
 pub async fn post_img(img: Json<Img>) -> Result<()> {
     let mutex = CLIENT
         .get()
-        .ok_or(AnyhowError(anyhow::Error::msg("Failed getting id")))?;
+        .ok_or(AnyhowError(anyhow::Error::msg("Failed getting mutex lock")))?;
 
     let client = mutex.try_lock()?;
 

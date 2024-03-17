@@ -1,14 +1,17 @@
-use std::net::Ipv4Addr;
-
 use anyhow::Result;
 use api::{
     admin_page::root,
     get_version,
     img::{get_img, post_img},
 };
+use colored::Colorize;
 use db::mutate::setup;
+use dotenv::dotenv;
+use log::{error, info, warn, Record};
 use mongodb::Client;
 use rocket::{routes, Config};
+use std::io::Write;
+use std::net::Ipv4Addr;
 use tokio::sync::{Mutex, OnceCell};
 
 mod api;
@@ -27,18 +30,49 @@ pub static CLIENT: OnceCell<Mutex<Client>> = OnceCell::const_new();
 /// Sets up the database, and then starts the server
 #[rocket::main]
 async fn main() -> Result<()> {
+    // Loading dotenv
+    dotenv()?;
+
+    // Logger setup
+    env_logger::builder()
+        .format(|buf: &mut env_logger::fmt::Formatter, record: &Record| {
+            let lvl = match record.level() {
+                log::Level::Error => record.level().as_str().red(),
+                log::Level::Warn => record.level().as_str().yellow(),
+                log::Level::Info => record.level().as_str().blue(),
+                _ => record.level().as_str().into(),
+            };
+
+            writeln!(buf, "[{}]: {}", lvl, record.args())
+        })
+        .init();
+
+    info!("Initialized logger");
     // Database setup
     let mutex = CLIENT
         .get_or_init(|| async {
-            Mutex::new(db::create_client().await.expect("Failed creating client"))
+            match db::create_client().await {
+                Ok(c) => {
+                    info!("Created client");
+                    Mutex::new(c)
+                }
+                Err(e) => {
+                    error!("Failed creating client, got error: {:?}", e);
+                    panic!("Failed creating client");
+                }
+            }
         })
         .await;
 
     let client = mutex.try_lock()?;
 
-    setup(&client).await?;
+    match setup(&client).await {
+        Ok(_) => info!("Finished DB setup"),
+        Err(_) => warn!("Failed DB setup"),
+    }
 
     // Server setup
+    info!("Initializing rocket server");
     let rocket = rocket::build()
         .mount("/", routes![root])
         .mount("/api", routes![get_version, get_img, post_img])
@@ -49,6 +83,7 @@ async fn main() -> Result<()> {
         })
         .launch();
 
+    info!("Launching rocket server");
     rocket.await?;
 
     Ok(())
