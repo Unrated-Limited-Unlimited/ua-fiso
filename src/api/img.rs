@@ -8,7 +8,7 @@ use crate::{
 };
 
 #[get("/img/<id>")]
-pub async fn get_img(id: &str) -> Result<Json<Img>> {
+pub async fn get_img(id: &str) -> Result<Json<Vec<Img>>> {
     let mutex = CLIENT
         .get()
         .ok_or(AnyhowError(anyhow::Error::msg("Failed getting id")))?;

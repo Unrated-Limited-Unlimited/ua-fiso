@@ -2,7 +2,7 @@ pub mod fetch;
 pub mod mutate;
 
 use anyhow::{Error, Result};
-use bson::doc;
+use bson::{doc, DeserializerOptions};
 use mongodb::{options::ClientOptions, Client};
 
 use crate::utils::consts::DB_URL;
@@ -21,4 +21,8 @@ pub async fn create_client() -> Result<Client> {
             err
         ))),
     }
+}
+
+pub fn get_bson_deserializer_option() -> DeserializerOptions {
+    DeserializerOptions::builder().build()
 }
