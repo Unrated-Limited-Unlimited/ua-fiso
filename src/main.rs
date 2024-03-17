@@ -1,12 +1,11 @@
 use anyhow::Result;
-use api::{admin_page::root, img::get_img};
-use db::create_client;
+use api::{
+    admin_page::root,
+    img::{get_img, post_img},
+};
 use mongodb::Client;
 use rocket::routes;
-use tokio::{
-    runtime::Runtime,
-    sync::{Mutex, OnceCell},
-};
+use tokio::sync::{Mutex, OnceCell};
 
 mod api;
 mod db;
@@ -32,7 +31,7 @@ async fn main() -> Result<()> {
     // Server setup
     let rocket = rocket::build()
         .mount("/", routes![root])
-        .mount("/api", routes![get_img])
+        .mount("/api", routes![get_img, post_img])
         .launch();
 
     rocket.await?;
