@@ -55,6 +55,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "anyhow"
+version = "1.0.81"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0952808a6c2afd1aa8947271f3a60f1a6763c7b912d210184c5149b5cf147247"
+
+[[package]]
 name = "async-stream"
 version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1404,6 +1410,7 @@ dependencies = [
  "rocket_codegen",
  "rocket_http",
  "serde",
+ "serde_json",
  "state",
  "tempfile",
  "time",
@@ -1413,6 +1420,16 @@ dependencies = [
  "ubyte",
  "version_check",
  "yansi",
+]
+
+[[package]]
+name = "rocket-errors"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d5ac1222b4578d545cc19d71a01cad41b43b383dc00c52737c2629c9c1affc0f"
+dependencies = [
+ "anyhow",
+ "rocket",
 ]
 
 [[package]]
@@ -2146,11 +2163,13 @@ checksum = "42ff0bf0c66b8238c6f3b578df37d0b7848e55df8577b3f74f92a69acceeb825"
 name = "ua-fiso"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "bson",
  "chrono",
- "eyre",
  "mongodb",
+ "once_cell",
  "rocket",
+ "rocket-errors",
  "serde",
  "serde_json",
  "tokio",
@@ -2159,8 +2178,8 @@ dependencies = [
 
 [[package]]
 name = "ua-rlib"
-version = "0.1.0"
-source = "git+https://github.com/Unrated-Limited-Unlimited/ua-rlib?branch=main#e791200883a6d424e0a73110ab3c3b5b055c7654"
+version = "1.2.1"
+source = "git+https://github.com/Unrated-Limited-Unlimited/ua-rlib?branch=main#26c0fe9f5502ce1b9dbc750ecf00cbc715cbaff8"
 dependencies = [
  "eyre",
  "serde",
