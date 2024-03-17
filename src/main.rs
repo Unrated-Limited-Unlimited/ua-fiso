@@ -1,8 +1,12 @@
 use anyhow::Result;
+use api::{admin_page::root, img::get_img};
 use db::create_client;
 use mongodb::Client;
-use once_cell::unsync::Lazy;
-use tokio::{runtime::Runtime, sync::Mutex};
+use rocket::routes;
+use tokio::{
+    runtime::Runtime,
+    sync::{Mutex, OnceCell},
+};
 
 mod api;
 mod db;
@@ -10,20 +14,28 @@ mod db;
 mod tests;
 mod utils;
 
-pub const CLIENT: Lazy<Mutex<Client>> = Lazy::new(|| {
-    let rt = Runtime::new().expect("Failed creating const CLIENT");
+/// Database connection
+pub static CLIENT: OnceCell<Mutex<Client>> = OnceCell::const_new();
 
-    let res = rt
-        .block_on(async { create_client().await })
-        .expect("Failed creating client");
-
-    Mutex::new(res)
-});
-
-#[tokio::main]
+/// Entry point for the microservice
+///
+/// Sets up the database, and then starts the server
+#[rocket::main]
 async fn main() -> Result<()> {
-    let client = db::create_client().await?;
-    db::mutate::setup(&client).await?;
+    // Database setup
+    CLIENT
+        .get_or_init(|| async {
+            Mutex::new(db::create_client().await.expect("Failed creating client"))
+        })
+        .await;
+
+    // Server setup
+    let rocket = rocket::build()
+        .mount("/", routes![root])
+        .mount("/api", routes![get_img])
+        .launch();
+
+    rocket.await?;
 
     Ok(())
 }
