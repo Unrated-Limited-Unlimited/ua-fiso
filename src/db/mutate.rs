@@ -1,11 +1,12 @@
 use anyhow::Result;
 use bson::Document;
 use mongodb::{options::CreateCollectionOptions, Client, Collection};
+use rocket::serde::{Deserialize, Serialize};
 use ua_rlib::models::img::Img;
 
 use crate::utils::consts::{DB_COLLECTION_WIMG, DB_NAME};
 
-/// Setups the databse, ensuring that the wanted collections (tabels) exist, if not, creates them.
+/// Setups the database, ensuring that the wanted collections (tables) exist, if not, creates them.
 pub async fn setup(client: &Client) -> Result<()> {
     let db = client.database(DB_NAME);
 
@@ -19,17 +20,29 @@ pub async fn setup(client: &Client) -> Result<()> {
     Ok(())
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ImgWrapper {
+    pub img: Vec<u8>,
+    pub iid: String,
+}
+
 /// Adds an image to the database.
 ///
 /// Works by converting the struct into a json object (same as bson),
 /// and storing it in the MongoDB
-pub async fn add_img(client: &Client, img: Img) -> Result<()> {
+pub async fn add_img(client: &Client, img: Vec<u8>) -> Result<()> {
     let db = client.database(DB_NAME);
 
     let collection = db.collection::<Document>(DB_COLLECTION_WIMG);
 
     collection
-        .insert_one(bson::to_document(&img)?, None)
+        .insert_one(
+            bson::to_document(&ImgWrapper {
+                img,
+                iid: "100".to_string(),
+            })?,
+            None,
+        )
         .await?;
 
     Ok(())

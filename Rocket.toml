@@ -1,3 +1,9 @@
 [default]
 address = "0.0.0.0"
 port = 8000
+
+[default.limits]
+form = "64 GiB"
+json = "50 GiB"
+msgpack = "50 GiB"
+"file/jpg" = "500 GiB"

@@ -72,6 +72,8 @@ async fn main() -> Result<()> {
         Err(_) => warn!("Failed DB setup"),
     }
 
+    drop(client);
+
     // Server setup
     info!("Initializing rocket server");
     let rocket = rocket::build()
