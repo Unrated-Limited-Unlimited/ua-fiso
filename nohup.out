@@ -1,0 +1,141 @@
+warning: unused import: `Collection`
+ --> src/db/mutate.rs:4:57
+  |
+4 | use mongodb::{options::CreateCollectionOptions, Client, Collection};
+  |                                                         ^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: `ua-fiso` (bin "ua-fiso") generated 1 warning (run `cargo fix --bin "ua-fiso"` to apply 1 suggestion)
+    Finished release [optimized] target(s) in 0.45s
+[INFO]: Initialized logger
+[INFO]: Created client
+[INFO]: Finished DB setup
+[INFO]: Initializing rocket server
+[INFO]: Launching rocket server
+[INFO]: Configured for release.
+[INFO]: address: 0.0.0.0
+[INFO]: port: 8001
+[INFO]: workers: 4
+[INFO]: max blocking threads: 512
+[INFO]: ident: Rocket
+[INFO]: IP header: X-Real-IP
+[INFO]: limits: bytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB
+[INFO]: temp dir: /tmp
+[INFO]: http/2: true
+[INFO]: keep-alive: 5s
+[INFO]: tls: disabled
+[INFO]: shutdown: ctrlc = true, force = true, signals = [SIGTERM], grace = 2s, mercy = 3s
+[INFO]: log level: critical
+[INFO]: cli colors: true
+[INFO]: Routes:
+[INFO]: (get_img) GET /api/img/<id>
+[INFO]: (post_img) POST /api/img/<id>
+[INFO]: (get_version) GET /api/meta/version
+[INFO]: Fairings:
+[INFO]: Shield (liftoff, response, singleton)
+[INFO]: Shield:
+[INFO]: X-Frame-Options: SAMEORIGIN
+[INFO]: Permissions-Policy: interest-cohort=()
+[INFO]: X-Content-Type-Options: nosniff
+[WARN]: Rocket has launched from http://0.0.0.0:8001
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: POST /api/img/nils image/jpeg:
+[INFO]: Matched: (post_img) POST /api/img/<id>
+[INFO]: Uploading image with id: `nils`
+[INFO]: Adding img with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: POST /api/img/nils image/jpeg:
+[INFO]: Matched: (post_img) POST /api/img/<id>
+[INFO]: Uploading image with id: `nils`
+[INFO]: Adding img with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: POST /api/img/nils image/jpeg:
+[INFO]: Matched: (post_img) POST /api/img/<id>
+[INFO]: Uploading image with id: `nils`
+[INFO]: Adding img with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils text/html:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /favicon.ico image/avif:
+[ERROR]: No matching routes for GET /favicon.ico image/avif.
+[WARN]: No 404 catcher registered. Using Rocket default.
+[INFO]: Response succeeded.
+[INFO]: POST /api/img/nils image/jpeg:
+[INFO]: Matched: (post_img) POST /api/img/<id>
+[INFO]: Uploading image with id: `nils`
+[INFO]: Adding img with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: POST /api/img/nils image/jpeg:
+[INFO]: Matched: (post_img) POST /api/img/<id>
+[INFO]: Uploading image with id: `nils`
+[INFO]: Adding img with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: POST /api/img/nils image/jpeg:
+[INFO]: Matched: (post_img) POST /api/img/<id>
+[INFO]: Uploading image with id: `nils`
+[INFO]: Adding img with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.
+[INFO]: GET /api/img/nils:
+[INFO]: Matched: (get_img) GET /api/img/<id>
+[INFO]: Searching for id with id: `nils`
+[INFO]: Outcome: Success(200 OK)
+[INFO]: Response succeeded.

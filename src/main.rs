@@ -78,7 +78,7 @@ async fn main() -> Result<()> {
     let rocket = rocket::build()
         .mount("/api", routes![get_version, get_img, post_img])
         .configure(Config {
-            port: 8000,
+            port: 8001,
             address: Ipv4Addr::new(0, 0, 0, 0).into(),
             ..Default::default()
         })
