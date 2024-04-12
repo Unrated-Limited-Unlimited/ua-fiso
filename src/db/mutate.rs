@@ -53,5 +53,5 @@ pub async fn add_img(client: &Client, img: Vec<u8>, id: &str) -> Result<bool> {
         )
         .await?;
 
-    Ok(bool)
+    Ok(res)
 }
