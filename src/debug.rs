@@ -16,8 +16,6 @@ use tokio::sync::{Mutex, OnceCell};
 
 mod api;
 mod db;
-#[cfg(test)]
-mod tests;
 mod utils;
 
 /// Database connection
@@ -49,10 +47,11 @@ async fn main() -> Result<()> {
         .init();
 
     info!("Initialized logger");
+    info!("UA Fiso Debugging");
     // Database setup
     let mutex = CLIENT
         .get_or_init(|| async {
-            match db::create_client().await {
+            match db::create_client_debug().await {
                 Ok(c) => {
                     info!("Created client");
                     Mutex::new(c)

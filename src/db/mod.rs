@@ -1,13 +1,13 @@
 pub mod fetch;
 pub mod mutate;
 
-use anyhow::{Error, Result};
+use anyhow::{Context, Error, Result};
 use bson::{doc, DeserializerOptions};
 use mongodb::{options::ClientOptions, Client};
 
 use crate::utils::consts::DB_URL;
 
-/// Creats a connection to the database
+/// Creates a connection to the database
 ///
 /// Pings the database, ensuring a client is only made if the server is up and running
 pub async fn create_client() -> Result<Client> {
@@ -24,6 +24,12 @@ pub async fn create_client() -> Result<Client> {
             err
         ))),
     }
+}
+
+/// Creates a connection to the database
+/// Does not verify if the connection is valid
+pub async fn create_client_debug() -> Result<Client> {
+    Ok(Client::with_options(ClientOptions::parse(DB_URL).await?)?)
 }
 
 /*

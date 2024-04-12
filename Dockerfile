@@ -7,6 +7,6 @@ COPY . .
 # Build the application
 RUN cargo build --release
 
-EXPOSE 8000
+EXPOSE 8001
 
 CMD ["/target/release/ua-fiso"]
