@@ -9,19 +9,6 @@ use crate::{
     utils::consts::{DB_COLLECTION_WIMG, DB_NAME},
 };
 
-/// Setups the database, ensuring that the wanted collections (tables) exist, if not, creates them.
-pub async fn setup(client: &Client) -> Result<()> {
-    let db = client.database(DB_NAME);
-
-    let collections = db.list_collection_names(None).await?;
-
-    if !collections.contains(&(DB_COLLECTION_WIMG.to_string())) {
-        db.create_collection(DB_COLLECTION_WIMG, CreateCollectionOptions::default())
-            .await?;
-    }
-
-    Ok(())
-}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ImgWrapper {

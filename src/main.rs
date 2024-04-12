@@ -4,7 +4,6 @@ use api::{
     img::{get_img, post_img},
 };
 use colored::Colorize;
-use db::mutate::setup;
 use dotenv::dotenv;
 use log::{error, info, warn, Record};
 use mongodb::Client;
@@ -63,15 +62,6 @@ async fn main() -> Result<()> {
             }
         })
         .await;
-
-    let client = mutex.try_lock()?;
-
-    match setup(&client).await {
-        Ok(_) => info!("Finished DB setup"),
-        Err(_) => warn!("Failed DB setup"),
-    }
-
-    drop(client);
 
     // Server setup
     info!("Initializing rocket server");

@@ -2,7 +2,6 @@
 name = "ua-fiso"
 version = "1.2.0"
 edition = "2021"
-default-run = "ua-fiso"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -22,11 +21,3 @@ serde_json = "1.0.114"
 tokio = "1.36.0"
 toml = "0.8.11"
 ua-rlib = { git = "https://github.com/Unrated-Limited-Unlimited/ua-rlib", branch = "main" }
-
-[[bin]]
-name = "ua-fiso"
-path = "src/main.rs"
-
-[[bin]]
-name = "ua-fiso-debug"
-path ="src/debug.rs"
