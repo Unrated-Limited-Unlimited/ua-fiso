@@ -2,7 +2,6 @@ use rocket::get;
 
 use crate::utils::consts::VERSION;
 
-pub mod admin_page;
 pub mod img;
 
 #[get("/meta/version")]

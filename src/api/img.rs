@@ -1,10 +1,8 @@
-use anyhow::Context;
+use log::info;
 use rocket::data::{Data, ToByteUnit};
 use rocket::response::status;
 use rocket::Responder;
-use rocket::{get, post, serde::json::Json};
-use std::io::{self, Read};
-use ua_rlib::models::img::Img;
+use rocket::{get, post};
 
 use crate::{
     db::{fetch::get_img_by_id, mutate::add_img},
@@ -42,8 +40,9 @@ pub async fn get_img(id: &str) -> Result<ImgResponse, status::Custom<String>> {
 /// Upload img
 ///
 /// Returns use rocket::response::status;
-#[post("/img", data = "<data>")]
-pub async fn post_img(data: Data<'_>) -> Result<(), status::Custom<String>> {
+#[post("/img/<id>", data = "<data>")]
+pub async fn post_img(id: &str, data: Data<'_>) -> Result<(), status::Custom<String>> {
+    info!("Uploading image with id: `{id}`");
     let mut img = Vec::new();
     if let Err(err) = data.open(200.mebibytes()).stream_to(&mut img).await {
         return Err(status::Custom(
@@ -53,7 +52,7 @@ pub async fn post_img(data: Data<'_>) -> Result<(), status::Custom<String>> {
     }
 
     if let Some(client) = CLIENT.get().and_then(|mutex| mutex.try_lock().ok()) {
-        match add_img(&client, img).await {
+        match add_img(&client, img, id).await {
             Ok(_) => {
                 return Ok(());
             }

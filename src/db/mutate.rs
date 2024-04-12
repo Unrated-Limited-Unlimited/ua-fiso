@@ -1,8 +1,8 @@
 use anyhow::Result;
 use bson::Document;
+use log::info;
 use mongodb::{options::CreateCollectionOptions, Client, Collection};
 use rocket::serde::{Deserialize, Serialize};
-use ua_rlib::models::img::Img;
 
 use crate::utils::consts::{DB_COLLECTION_WIMG, DB_NAME};
 
@@ -30,7 +30,8 @@ pub struct ImgWrapper {
 ///
 /// Works by converting the struct into a json object (same as bson),
 /// and storing it in the MongoDB
-pub async fn add_img(client: &Client, img: Vec<u8>) -> Result<()> {
+pub async fn add_img(client: &Client, img: Vec<u8>, id: &str) -> Result<()> {
+    info!("Adding img with id: `{id}`");
     let db = client.database(DB_NAME);
 
     let collection = db.collection::<Document>(DB_COLLECTION_WIMG);
@@ -39,7 +40,7 @@ pub async fn add_img(client: &Client, img: Vec<u8>) -> Result<()> {
         .insert_one(
             bson::to_document(&ImgWrapper {
                 img,
-                iid: "100".to_string(),
+                iid: id.to_string(),
             })?,
             None,
         )

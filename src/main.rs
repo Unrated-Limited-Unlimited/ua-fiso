@@ -1,6 +1,5 @@
 use anyhow::Result;
 use api::{
-    admin_page::root,
     get_version,
     img::{get_img, post_img},
 };
@@ -77,7 +76,6 @@ async fn main() -> Result<()> {
     // Server setup
     info!("Initializing rocket server");
     let rocket = rocket::build()
-        .mount("/", routes![root])
         .mount("/api", routes![get_version, get_img, post_img])
         .configure(Config {
             port: 8000,
