@@ -41,7 +41,10 @@ pub async fn get_img(id: &str) -> Result<ImgResponse, status::Custom<String>> {
 ///
 /// Returns use rocket::response::status;
 #[post("/img/<id>", data = "<data>")]
-pub async fn post_img(id: &str, data: Data<'_>) -> Result<(), status::Custom<String>> {
+pub async fn post_img(
+    id: &str,
+    data: Data<'_>,
+) -> Result<status::Custom<String>, status::Custom<String>> {
     info!("Uploading image with id: `{id}`");
     let mut img = Vec::new();
     if let Err(err) = data.open(200.mebibytes()).stream_to(&mut img).await {
@@ -53,8 +56,12 @@ pub async fn post_img(id: &str, data: Data<'_>) -> Result<(), status::Custom<Str
 
     if let Some(client) = CLIENT.get().and_then(|mutex| mutex.try_lock().ok()) {
         match add_img(&client, img, id).await {
-            Ok(_) => {
-                return Ok(());
+            Ok(r) => {
+                if r {
+                    return Ok(status::Custom(Status::Ok, format!("Updated img: `{id}`")));
+                } else {
+                    return Ok(status::Custom(Status::Ok, format!("Created img: `{id}`")));
+                }
             }
             Err(err) => {
                 return Err(status::Custom(

@@ -4,7 +4,10 @@ use log::info;
 use mongodb::{options::CreateCollectionOptions, Client, Collection};
 use rocket::serde::{Deserialize, Serialize};
 
-use crate::utils::consts::{DB_COLLECTION_WIMG, DB_NAME};
+use crate::{
+    db::fetch,
+    utils::consts::{DB_COLLECTION_WIMG, DB_NAME},
+};
 
 /// Setups the database, ensuring that the wanted collections (tables) exist, if not, creates them.
 pub async fn setup(client: &Client) -> Result<()> {
@@ -30,9 +33,13 @@ pub struct ImgWrapper {
 ///
 /// Works by converting the struct into a json object (same as bson),
 /// and storing it in the MongoDB
-pub async fn add_img(client: &Client, img: Vec<u8>, id: &str) -> Result<()> {
+pub async fn add_img(client: &Client, img: Vec<u8>, id: &str) -> Result<bool> {
     info!("Adding img with id: `{id}`");
     let db = client.database(DB_NAME);
+
+    let res = fetch::get_img_by_id(client, id.to_string())
+        .await
+        .is_ok_and(|e| !e.is_empty());
 
     let collection = db.collection::<Document>(DB_COLLECTION_WIMG);
 
@@ -46,5 +53,5 @@ pub async fn add_img(client: &Client, img: Vec<u8>, id: &str) -> Result<()> {
         )
         .await?;
 
-    Ok(())
+    Ok(bool)
 }
