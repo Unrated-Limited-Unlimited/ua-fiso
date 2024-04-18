@@ -1,20 +1,12 @@
-use anyhow::Result;
-use bson::Document;
-use log::info;
-use mongodb::{options::CreateCollectionOptions, Client, Collection};
-use rocket::serde::{Deserialize, Serialize};
-
 use crate::{
     db::fetch,
     utils::consts::{DB_COLLECTION_WIMG, DB_NAME},
 };
-
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ImgWrapper {
-    pub img: Vec<u8>,
-    pub iid: String,
-}
+use anyhow::Result;
+use bson::Document;
+use log::info;
+use mongodb::Client;
+use ua_rlib::models::img::ImgWrapper;
 
 /// Adds an image to the database.
 ///

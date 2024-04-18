@@ -5,7 +5,7 @@ use api::{
 };
 use colored::Colorize;
 use dotenv::dotenv;
-use log::{error, info, warn, Record};
+use log::{error, info, Record};
 use mongodb::Client;
 use rocket::{routes, Config};
 use std::io::Write;
@@ -48,7 +48,7 @@ async fn main() -> Result<()> {
 
     info!("Initialized logger");
     // Database setup
-    let mutex = CLIENT
+    let _mutex = CLIENT
         .get_or_init(|| async {
             match db::create_client().await {
                 Ok(c) => {

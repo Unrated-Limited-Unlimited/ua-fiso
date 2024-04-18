@@ -1,20 +1,14 @@
-use log::info;
-use rocket::data::{Data, ToByteUnit};
-use rocket::response::status;
-use rocket::Responder;
-use rocket::{get, post};
-
 use crate::{
     db::{fetch::get_img_by_id, mutate::add_img},
     CLIENT,
 };
+use log::info;
+use rocket::data::{Data, ToByteUnit};
 use rocket::http::Status;
+use rocket::response::status;
+use rocket::{get, post};
+use ua_rlib::models::img::ImgResponse;
 
-#[derive(Responder)]
-#[response(status = 200, content_type = "image/jpeg")]
-pub struct ImgResponse(Vec<u8>);
-
-// TODO: Change to return img instead of img-type
 /// Gets image by id
 ///
 /// Returns a Result, meaning this function can error (like `Either` in Haskell)
