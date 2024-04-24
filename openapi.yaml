@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: UA-FISO API
+  version: 1.0.0
+paths:
+  /api/meta/version:
+    get:
+      summary: Get version information
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    example: "1.0.0"
+  /api/img/{id}:
+    post:
+      summary: Upload an image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Image uploaded successfully"
+  /api/img/nils:
+    get:
+      summary: Download a test image
+      responses:
+        '200':
+          description: OK
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+  /api/img/{id}:
+    get:
+      summary: View an image in the terminal
+      responses:
+        '200':
+          description: OK
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
