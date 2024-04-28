@@ -1,9 +1,9 @@
-use crate::db::mutate::ImgWrapper;
 use anyhow::Result;
 use bson::{doc, Document};
 use log::info;
 use mongodb::Client;
 use rocket::futures::StreamExt;
+use ua_rlib::models::img::ImgWrapper;
 
 use crate::utils::consts::{DB_COLLECTION_WIMG, DB_NAME};
 
