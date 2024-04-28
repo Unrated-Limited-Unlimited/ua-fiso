@@ -1,12 +1,13 @@
 # Use the rust image as base
 FROM rust:latest
 
-# Copy the source code into the container
-COPY . .
+WORKDIR ua-fiso
 
-# Build the application
-RUN cargo build --release
+# Copy the source code into the container
+COPY /target/release/ .
 
 EXPOSE 8001
+EXPOSE 27017
 
-CMD ["/target/release/ua-fiso"]
+CMD ["./ua-fiso"]
+
